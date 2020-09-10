@@ -1,26 +1,21 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useReducer } from 'react'
+// css
+import Nav from './components/Nav'
+import { reducerAuth, CountContext } from './store/reducer'
+import './fetch/axios'
+
+const initialState = 0
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	const [count, dispatch] = useReducer(reducerAuth, initialState)
+	return (
+		<div className='App'>
+			<CountContext.Provider value={{ countState: count, countDispatch: dispatch }}>
+				<Nav />
+				<p>Count - {count} </p>
+			</CountContext.Provider>
+		</div>
+	)
 }
 
-export default App;
+export default App
