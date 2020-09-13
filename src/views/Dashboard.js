@@ -1,10 +1,11 @@
 import React from 'react'
+import MainContainer from '../components/MainContainer'
 
 export default function Dashboard(props) {
 	console.log(props)
 	return (
-		<div>
+		<MainContainer>
 			<h1>Dashboard</h1>
-		</div>
+		</MainContainer>
 	)
 }

@@ -1,8 +1,12 @@
 export class RequestsHandler {
-	constructor(options) {
-		this.options = options
+	constructor(token) {
+		this.token = token
 	}
 
+	/**
+	 * @param {String} url
+	 * @param {String} token
+	 */
 	async get(url, token) {
 		const options = {
 			method: 'GET',
@@ -17,6 +21,11 @@ export class RequestsHandler {
 		}
 	}
 
+	/**
+	 * @param {String} url
+	 * @param {Object} body
+	 * @param {String} token
+	 */
 	async post(url, body, token = '') {
 		try {
 			const options = {
@@ -36,8 +45,4 @@ export class RequestsHandler {
 	}
 }
 
-
 export const response = new RequestsHandler()
-
-
-

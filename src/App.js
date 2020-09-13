@@ -1,8 +1,10 @@
 import React, { useReducer } from 'react'
 // css
 import Nav from './components/Nav'
-import { reducerAuth, CountContext } from './store/reducer'
+import { reducerAuth } from './store/reducer'
 import './fetch/axios'
+
+export const CountContext = React.createContext()
 
 const initialState = 0
 

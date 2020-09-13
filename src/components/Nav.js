@@ -1,6 +1,7 @@
 import React from 'react'
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
 
+// Components and Pages
 import About from '../views/About'
 import SignIn from '../views/SignIn'
 import SignUp from '../views/SignUp'
@@ -10,9 +11,9 @@ export default function Nav() {
 	return (
 		<Router>
 			<nav className='navbar navbar-expand-lg navbar-dark bg-dark'>
-				<a className='navbar-brand' href='/'>
-					Navbar Link
-				</a>
+				<Link to='/' className='navbar-brand'>
+					Home
+				</Link>
 				<button
 					className='navbar-toggler'
 					type='button'
@@ -25,11 +26,6 @@ export default function Nav() {
 				</button>
 				<div className='collapse navbar-collapse' id='navbarText'>
 					<ul className='navbar-nav mr-auto'>
-						<li className='nav-item active'>
-							<Link to='/' className='nav-link'>
-								Home <span className='sr-only'>(current)</span>
-							</Link>
-						</li>
 						<li className='nav-item active'>
 							<Link to='/about' className='nav-link'>
 								About <span className='sr-only'>(current)</span>

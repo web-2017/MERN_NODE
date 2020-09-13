@@ -1,9 +1,10 @@
 import React from 'react'
+import MainContainer from '../components/MainContainer'
 
 export default function About() {
-    return (
-        <div>
-            <h1>About</h1>
-        </div>
-    )
+	return (
+		<MainContainer>
+			<h1>About page</h1>
+		</MainContainer>
+	)
 }

@@ -1,42 +1,54 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useContext } from 'react'
 import { Link } from 'react-router-dom'
-import { CountContext } from '../store/reducer'
+import { CountContext } from '../App'
 import Container from '../components/Container'
 import { response } from '../fetch/request'
 import { BASE_AUTH } from '../constants/URL'
 
+import { Loader } from '../components/Loader'
+
 export default function SignIn() {
 	const countContext = useContext(CountContext)
-	const [loading, setLoading] = useState(true)
-	const [value, setValue] = useState({ email: '',  password: ''})
+	const [loading, setLoading] = useState(false)
+	const [isAuth, setIsAuth] = useState(false)
+	const [value, setValue] = useState({ email: '', password: '' })
 	const [errors, setError] = useState('')
 	const [user, setUser] = useState([])
 
+	// login handler
 	const signInHandler = async (e) => {
 		e.preventDefault()
 
-		if(value.email == '' || value.password == '') return
+		if (value.email === '' || value.password === '') return
 
 		try {
 			const options = {
 				email: value.email,
 				password: value.password,
 			}
+			setLoading(true)
 
 			const res = await response.post(BASE_AUTH.login, options)
 
+			const { success } = res
+
+			if (success) {
+				setUser(res)
+				setError('')
+				setLoading(false)
+			}
 			setLoading(false)
-			setUser(res)
+			setIsAuth(success)
 			setError(res.msg)
-
-
 		} catch (err) {
 			setLoading(false)
 			setUser({})
 			setError(err)
+			setIsAuth(false)
 		}
 	}
 
+	// onChange values handler
 	const setValueHandler = (e) => {
 		const { name, value } = e.target
 		setValue((prevState) => ({
@@ -54,20 +66,20 @@ export default function SignIn() {
 			<button onClick={() => countContext.countDispatch('reset')}>reset</button> */}
 			<div className='row mt-4 align-items-center'>
 				<div className='offset-3 col-6'>
-					<div className='spinner-border text-primary' role='status'>
-						<span className='sr-only'>Loading...</span>
-						<span className='sr-only'>{errors ? errors : ''}</span>
-					</div>
+					<h1 className='display1'>Авторизация</h1>
+					{loading ? <Loader /> : null}
 					<form onSubmit={signInHandler}>
 						<div className='form-group' width='600'>
-							<label htmlFor='exampleInputEmail1'>Email address</label>
+							<label htmlFor='exampleInputEmail1'>Email</label>
 							<input
+								required
 								type='email'
 								name='email'
 								value={value.email}
 								className='form-control'
 								id='exampleInputEmail1'
 								aria-describedby='emailHelp'
+								placeholder='Email address'
 								onChange={setValueHandler}
 							/>
 							<small id='emailHelp' className='form-text text-muted'>
@@ -77,26 +89,28 @@ export default function SignIn() {
 						<div className='form-group'>
 							<label htmlFor='exampleInputPassword'>Password</label>
 							<input
+								required
 								type='password'
 								value={value.password}
 								name='password'
 								className='form-control'
 								id='exampleInputPassword'
+								placeholder='password'
 								onChange={setValueHandler}
 							/>
 						</div>
-							{ errors ? 
-								<div className="alert alert-danger" role="alert">
+						{errors ? (
+							<div className='alert alert-danger' role='alert'>
 								{errors}
-							</div> : null}
-							  
-						
+							</div>
+						) : null}
+
 						<div className='mb-3'>
-							<Link to='/signup'>
-								Нет аккаунта? Зарегистрироваться
-							</Link>
+							<Link to='/signup'>Нет аккаунта? Зарегистрироваться</Link>
 						</div>
-						<input type='submit' value='Войти' className='btn btn-primary' />
+						<button type='submit' className='btn btn-outline-dark'>
+							Войти
+						</button>
 					</form>
 				</div>
 			</div>

@@ -12,5 +12,3 @@ export const reducerAuth = (state, action, initialState = 0) => {
 			return state
 	}
 }
-
-export const CountContext = React.createContext()
