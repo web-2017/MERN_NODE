@@ -57,10 +57,10 @@ export default function Nav() {
 				<Route path='/about'>
 					<About />
 				</Route>
-				<Route path='/signup'>
+				<Route exact path='/signup'>
 					<SignUp />
 				</Route>
-				<Route path='/signin'>
+				<Route exact path='/signin' component={SignIn}>
 					<SignIn />
 				</Route>
 				<Route path='/dashboard'>

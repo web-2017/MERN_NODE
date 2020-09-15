@@ -1,10 +1,10 @@
 import React from 'react'
-export const reducerAuth = (state, action, initialState = 0) => {
+export const reducerAuth = (state, action, initialState = false) => {
 	switch (action) {
-		case 'increment':
-			return state + 1
-		case 'decrement':
-			return state - 1
+		case 'isAuth':
+			return true
+		case 'logOut':
+			return false
 		case 'reset':
 			return initialState
 

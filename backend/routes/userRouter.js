@@ -1,8 +1,6 @@
 const router = require('express').Router()
-const bcrypt = require('bcryptjs')
-const jwt = require('jsonwebtoken')
 // auth middleware
-const auth = require('../middleware/auth')
+const { auth } = require('../middleware/auth')
 const test = require('../middleware/test')
 // User Controllers
 const { login, register, delete_user, valid_token, get_current_user } = require('../controller/userController')

@@ -146,7 +146,6 @@ const valid_token = async (req, res) => {
 
 const get_current_user = async (req, res) => {
 	const user = await User.findById(req.user)
-	console.log(req.user)
 	res.json(user)
 }
 

@@ -1,6 +1,6 @@
-const test = async(req, res, next) => {
-  console.log(111, req.body);
-  next()
+const test = async (req, res, next) => {
+	console.log('test', req.body)
+	next()
 }
 
 module.exports = test

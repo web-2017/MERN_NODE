@@ -1,14 +1,14 @@
 import React, { useState, useContext } from 'react'
 import { Link } from 'react-router-dom'
-import { CountContext } from '../App'
+import { reducerAuth } from '../App'
 import Container from '../components/Container'
 import { response } from '../fetch/request'
 import { BASE_AUTH } from '../constants/URL'
 
 import { Loader } from '../components/Loader'
 
-export default function SignIn() {
-	const countContext = useContext(CountContext)
+export default function SignIn(props) {
+	const reducerAuth = useContext(useContext)
 	const [loading, setLoading] = useState(false)
 	const [isAuth, setIsAuth] = useState(false)
 	const [value, setValue] = useState({ email: '', password: '' })

@@ -7,6 +7,10 @@ const morgan = require('morgan')
 
 const connectDB = require('./config/connectDB')
 
+// import routes
+const userRouter = require('./routes/userRouter')
+const postRoutes = require('./routes/postRouter')
+
 // https://www.youtube.com/watch?v=BKiiXXVb69Y
 
 // set express
@@ -25,4 +29,5 @@ connectDB()
 
 // set up routes
 // register and auth user
-app.use('/users', require('./routes/userRouter'))
+app.use('/users', userRouter)
+app.use('/posts', postRoutes)
