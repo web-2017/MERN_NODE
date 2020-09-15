@@ -10,6 +10,7 @@ const connectDB = require('./config/connectDB')
 // import routes
 const userRouter = require('./routes/userRouter')
 const postRoutes = require('./routes/postRouter')
+const passportRoutes = require('./routes/passportRouter')
 
 // https://www.youtube.com/watch?v=BKiiXXVb69Y
 
@@ -31,3 +32,4 @@ connectDB()
 // register and auth user
 app.use('/users', userRouter)
 app.use('/posts', postRoutes)
+app.use('/passport', passportRoutes)
