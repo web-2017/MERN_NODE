@@ -1,22 +1,36 @@
-import React, { useReducer } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 
 // css
 import Nav from './components/Nav'
 import { reducerAuth } from './store/reducer'
+import { UserContext } from './store/userContext'
 import './fetch/axios'
 
-export const CountContext = React.createContext()
-
-const initialState = 0
-
 function App() {
-	const [count, dispatch] = useReducer(reducerAuth, initialState)
+	const [user, setUser] = useState({ user: null, token: null })
+	const setUserHandler = () => {
+		const data = {
+			token: localStorage.getItem('token'),
+			user: localStorage.getItem('isAuthorized'),
+		}
+		if (data.token && data.user) {
+			setUser(data)
+			return data
+		}
+		return 'Нет данных'
+	}
+
+	useEffect(() => {
+		setUserHandler()
+	}, [user.token])
+
+	const providerUser = useMemo(() => ({ user, setUser }), [user, setUser])
+
 	return (
 		<div className='App'>
-			<CountContext.Provider value={{ countState: count, countDispatch: dispatch }}>
+			<UserContext.Provider value={providerUser}>
 				<Nav />
-				<p>Count - {count} </p>
-			</CountContext.Provider>
+			</UserContext.Provider>
 		</div>
 	)
 }
