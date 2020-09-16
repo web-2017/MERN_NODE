@@ -54,6 +54,7 @@ const passportSchema = new Schema({
 	},
 	photo: {
 		type: String,
+		required: true,
 	},
 	createdAt: {
 		type: Date,
