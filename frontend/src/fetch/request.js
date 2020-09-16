@@ -1,6 +1,7 @@
 export class RequestsHandler {
-	constructor(token) {
-		this.token = token
+	constructor(token, userName) {
+		this.token = token || localStorage.getItem('token')
+		this.isAuthorized = userName || localStorage.getItem('user')
 	}
 
 	/**
@@ -26,13 +27,41 @@ export class RequestsHandler {
 	 * @param {Object} body
 	 * @param {String} token
 	 */
-	async post(url, body, token = '') {
+	async signIn(url, body) {
 		try {
 			const options = {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
-					'x-auth-token': token,
+				},
+				body: JSON.stringify(body),
+			}
+			const response = await fetch(url, options)
+			const result = await response.json()
+			const { success } = result
+
+			if (success) {
+				// get and set token
+				const { token, displayName } = result
+				this.token = token
+				this.isAuthorized = displayName
+				localStorage.setItem('token', this.token)
+				// set user name
+				localStorage.setItem('isAuthorized', this.isAuthorized)
+			}
+
+			return result
+		} catch (error) {
+			console.error(error)
+		}
+	}
+	async post(url, body) {
+		try {
+			const options = {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+					'x-auth-token': this.token,
 				},
 				body: JSON.stringify(body),
 			}

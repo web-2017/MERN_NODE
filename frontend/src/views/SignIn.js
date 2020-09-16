@@ -1,19 +1,19 @@
 import React, { useState, useContext } from 'react'
-import { Link } from 'react-router-dom'
-import { reducerAuth } from '../App'
+import { Link, useHistory } from 'react-router-dom'
 import Container from '../components/Container'
 import { response } from '../fetch/request'
 import { BASE_AUTH } from '../constants/URL'
 
 import { Loader } from '../components/Loader'
+import { UserContext } from '../store/userContext'
 
-export default function SignIn(props) {
-	const reducerAuth = useContext(useContext)
+export default function SignIn() {
 	const [loading, setLoading] = useState(false)
-	const [isAuth, setIsAuth] = useState(false)
 	const [value, setValue] = useState({ email: '', password: '' })
 	const [errors, setError] = useState('')
-	const [user, setUser] = useState([])
+	const { user, setUser } = useContext(UserContext)
+
+	const history = useHistory()
 
 	// login handler
 	const signInHandler = async (e) => {
@@ -28,23 +28,23 @@ export default function SignIn(props) {
 			}
 			setLoading(true)
 
-			const res = await response.post(BASE_AUTH.login, options)
+			const res = await response.signIn(BASE_AUTH.login, options)
 
 			const { success } = res
 
 			if (success) {
-				setUser(res)
+				setUser({ user: res.displayName, token: res.token })
+
 				setError('')
 				setLoading(false)
+				history.push('/dashboard')
 			}
 			setLoading(false)
-			setIsAuth(success)
 			setError(res.msg)
 		} catch (err) {
 			setLoading(false)
 			setUser({})
 			setError(err)
-			setIsAuth(false)
 		}
 	}
 
