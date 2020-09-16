@@ -12,8 +12,6 @@ const userRouter = require('./routes/userRouter')
 const postRoutes = require('./routes/postRouter')
 const passportRoutes = require('./routes/passportRouter')
 
-// https://www.youtube.com/watch?v=BKiiXXVb69Y
-
 // set express
 const app = express()
 app.use(express.json())
