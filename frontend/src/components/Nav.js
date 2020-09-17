@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect, Fragment, useMemo } from 'react'
-import { BrowserRouter as Router, Switch, Route, Link, Redirect, useHistory, withRouter } from 'react-router-dom'
+import { BrowserRouter as Router, Switch, Route, Link, Redirect, useHistory } from 'react-router-dom'
 
 // Components and Pages
 import About from '../views/About'
@@ -34,7 +34,7 @@ export default function Nav() {
 	return (
 		<Router history={useHistory}>
 			<nav className='navbar navbar-expand-lg navbar-dark bg-dark'>
-				<Link to='/' className='navbar-brand'>
+				<Link to='/home' className='navbar-brand'>
 					Home
 				</Link>
 				<button
@@ -80,7 +80,7 @@ export default function Nav() {
 						) : null}
 						{user.user ? (
 							<li className='nav-item'>
-								<Link to='/' className='nav-link' onClick={loginOutHandler}>
+								<Link to='/home' className='nav-link' onClick={loginOutHandler}>
 									Выход <span className='sr-only'>(current)</span>
 								</Link>
 							</li>
@@ -90,6 +90,7 @@ export default function Nav() {
 			</nav>
 
 			<Switch>
+				<Route exact path='/' render={() => (user.user ? <Redirect to='/dashboard' /> : <Redirect to='/home' />)} />
 				<Route path='/about'>
 					<About />
 				</Route>

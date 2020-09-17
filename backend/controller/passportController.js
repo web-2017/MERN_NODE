@@ -23,13 +23,6 @@ const passport_index = async (req, res) => {
 // create passport
 const passport_create_post = async (req, res) => {
 	try {
-		// upload file
-		const file = req.file
-		// if file is not image return error
-		if (!file.mimetype.startsWith('image')) {
-			return res.status(400).json({ error: 'Please upload an image file' })
-		}
-
 		const passport = new Passport({
 			user: req.user._id,
 			fio: req.body.fio,
@@ -40,12 +33,31 @@ const passport_create_post = async (req, res) => {
 			series_number: req.body.series_number,
 			region: req.body.region,
 			sex: req.body.sex,
-			photo: file,
 			birthday: req.body.birthday,
 			place_birth: req.body.place_birth,
 			registration: req.body.registration,
 		})
 
+		const save_passport = await passport.save()
+		res.status(200).json(save_passport)
+	} catch (error) {
+		res.json({
+			message: error,
+		})
+	}
+}
+
+// upload files
+const passport_upload_image = async (req, res) => {
+	try {
+		// upload file
+		const file = req.file
+		console.log(file)
+		// if file is not image return error
+		if (!file.mimetype.startsWith('image')) {
+			return res.status(400).json({ error: 'Please upload an image file' })
+		}
+		const passport = await Post.updateOne({ _id: req.params.passportId }, { $set: { photo: file } })
 		const save_passport = await passport.save()
 		res.status(200).json(save_passport)
 	} catch (error) {
@@ -91,5 +103,6 @@ module.exports = {
 	// passport_details,
 	passport_patch,
 	passport_create_post,
+	passport_upload_image,
 	passport_delete,
 }
